@@ -4,6 +4,7 @@ import java.io.*;
 
 /**
  * Description 二维数组与稀疏数组转换
+ * 为什么要把二维数据转为稀疏数组，因为二维数据的很多值默认都是0，因此记录了很多没有意义的数据，所以转为稀疏数组。
  *
  * @author XD
  * createTime 2022年02月15日 12:34:00
@@ -12,7 +13,7 @@ public class SparseArray {
 
     public static void main(String[] args) throws IOException {
         // 创建一个原始的二维数组,并进行赋值
-        int[][] doubleDimensionalArray = new int[10][10];
+        int[][] doubleDimensionalArray = new int[10][12];
         doubleDimensionalArray[0][0] = 2;
         doubleDimensionalArray[3][1] = 4;
         doubleDimensionalArray[5][2] = 7;
@@ -37,8 +38,9 @@ public class SparseArray {
         // 3. 将二维数组中的有效数据存储到稀疏数组中
         // 4. 初始化稀疏数组并赋值, 固定3列，分别记录 行、列、值
         int[][] sparseArr = new int[sum + 1][3];
+        // 稀疏数组的第一行是固定的为二维数据的：行数、列数、有效数据个数
         sparseArr[0][0] = doubleDimensionalArray.length;
-        sparseArr[0][1] = doubleDimensionalArray.length;
+        sparseArr[0][1] = doubleDimensionalArray[0].length;
         sparseArr[0][2] = sum;
         // count 用于稀疏数组的下标移动，也就是第几个非零数据
         int count = 1;
@@ -57,6 +59,8 @@ public class SparseArray {
         // 稀疏数组恢复为二维数组
         // 1. 先读取稀疏数组的第一行，根据第一行的数据，创建原始的二维数组
         // 2. 读取稀疏数组后几行的数据，并赋值给二维数组
+
+        // 初始化二维数组长度
         int[][] sparseArray = new int[sparseArr[0][0]][sparseArr[0][1]];
         for (int i = 1; i < sparseArr.length; i++) {
             sparseArray[sparseArr[i][0]][sparseArr[i][1]] = sparseArr[i][2];
