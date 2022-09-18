@@ -1,7 +1,7 @@
 package com.xioayu.interview;
 
 /**
- * Description
+ * Description 有n步台阶，一次只能上1步或2步，共有多少种走法
  *
  * @author XD
  * createTime 2022年03月04日 19:52:00

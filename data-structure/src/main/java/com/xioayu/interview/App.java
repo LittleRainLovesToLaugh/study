@@ -1,7 +1,7 @@
 package com.xioayu.interview;
 
 /**
- * Description
+ * Description 类初始化和实例初始化的代码执行顺序
  *
  * @author XD
  * createTime 2022年04月19日 17:40:00

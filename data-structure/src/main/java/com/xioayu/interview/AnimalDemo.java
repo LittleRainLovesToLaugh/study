@@ -13,6 +13,7 @@ public class AnimalDemo {
 
 
     public static void main(String[] args) {
+        // set存储对象时，最好重写equals()和hashCode()方法
         Set<Animal> set = new HashSet<>();
         set.add(new Animal("dog", "yellow"));
         set.add(new Animal("cat", "black"));
@@ -28,13 +29,14 @@ public class AnimalDemo {
     }
 
     static class Animal {
-        private String style;
-        private String color;
+        private final String style;
+        private final String color;
 
         public Animal(String style, String color) {
             this.style = style;
             this.color = color;
         }
+
     }
 
 

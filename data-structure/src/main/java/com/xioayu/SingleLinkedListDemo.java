@@ -1,6 +1,4 @@
-package com.xioayu.linkedlist;
-
-import com.xioayu.interview.Father;
+package com.xioayu;
 
 /**
  * Description 单链表演示
