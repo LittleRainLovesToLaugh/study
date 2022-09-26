@@ -9,7 +9,14 @@ package com.xioayu.arithmetic.dynamic.array;
 public class MainTest {
 
     public static void main(String[] args) {
-
+        List<String> linkedListDemo = new LinkedListDemo<>();
+        linkedListDemo.add("1");
+        linkedListDemo.add("1");
+        linkedListDemo.add("1");
+        linkedListDemo.add("1");
+        linkedListDemo.add("1");
+        linkedListDemo.add("1");
+        System.out.println(linkedListDemo);
     }
 
 }

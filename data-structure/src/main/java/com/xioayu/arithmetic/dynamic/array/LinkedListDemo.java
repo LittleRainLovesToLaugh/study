@@ -49,9 +49,7 @@ public class LinkedListDemo<E> extends AbstractList<E> implements List<E> {
     @Override
     public void add(int index, E element) {
         if (index == 0) {
-            first.element = element;
-            first.next = null;
-            // first = new Node<>(element, first);
+            first = new Node<>(element, first);
         } else {
             // 获取当前索引的上一个节点
             Node<E> prev = node(index - 1);
@@ -63,21 +61,35 @@ public class LinkedListDemo<E> extends AbstractList<E> implements List<E> {
 
     @Override
     public E remove(int index) {
+        Node<E> node = first;
         if (index == 0) {
             first = first.next;
         } else {
             // 删除只需要把当前索引的上一个元素指向当前索引的下一个元素即可
             Node<E> preb = node(index - 1);
             // 当前索引的元素
-            // Node<E> next = preb.next;
+            node = preb.next;
             preb.next = preb.next.next;
         }
-        return null;
+        size--;
+        return node.element;
     }
 
     @Override
     public int indexOf(E element) {
-        return 0;
+        Node<E> node = first;
+        if (element == null) {
+            for (int i = 0; i < size; i++) {
+                if (node.element == null) return i;
+                node = node.next;
+            }
+        } else {
+            for (int i = 0; i < size; i++) {
+                if (element.equals(node.element)) return i;
+                node = node.next;
+            }
+        }
+        return ELEMENT_NOT_FOUND;
     }
 
     /**
@@ -90,5 +102,21 @@ public class LinkedListDemo<E> extends AbstractList<E> implements List<E> {
             node = node.next;
         }
         return node;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder string = new StringBuilder();
+        string.append("size=").append(size).append(",[");
+        Node<E> node = first;
+        for (int i = 0; i < size; i++) {
+            if (i != 0) {
+                string.append(",");
+            }
+            string.append(node.element);
+            node = node.next;
+        }
+        string.append("]");
+        return string.toString();
     }
 }
