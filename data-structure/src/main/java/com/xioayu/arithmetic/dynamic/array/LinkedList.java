@@ -122,14 +122,12 @@ public class LinkedList<E> extends AbstractList<E> {
 			Node<E> node = first;
 			for (int i = 0; i < size; i++) {
 				if (node.element == null) return i;
-				
 				node = node.next;
 			}
 		} else {
 			Node<E> node = first;
 			for (int i = 0; i < size; i++) {
 				if (element.equals(node.element)) return i;
-				
 				node = node.next;
 			}
 		}
