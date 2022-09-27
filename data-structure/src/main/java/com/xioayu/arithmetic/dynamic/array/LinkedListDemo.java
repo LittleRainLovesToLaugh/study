@@ -25,12 +25,18 @@ public class LinkedListDemo<E> extends AbstractList<E> implements List<E> {
             this.element = element;
             this.next = next;
         }
+
+        @Override
+        protected void finalize() throws Throwable {
+            System.out.println("NODE对象释放：" + this);
+            super.finalize();
+        }
     }
 
 
     @Override
     public void clear() {
-
+        size = 0;
     }
 
     @Override
