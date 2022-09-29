@@ -13,9 +13,30 @@ public class _83_删除排序链表中的重复元素 {
      * 输入：head = [1,1,2]
      * 输出：[1,2]
      */
-    public ListNode deleteDuplicates(ListNode head) {
+    public static ListNode deleteDuplicates(ListNode head) {
+        if (head == null) {
+            return head;
+        }
+        ListNode temp = head;
+        while (temp.next != null) {
+            if (temp.val == temp.next.val) {
+                temp.next = temp.next.next;
+            }else {
+                temp = temp.next;
+            }
+        }
+        return head;
+    }
 
-        return null;
+    public static void main(String[] args) {
+        ListNode node = new ListNode(1);
+        node.next = new ListNode(1);
+        node.next.next = new ListNode(2);
+        node.next.next.next = new ListNode(3);
+        node.next.next.next.next = new ListNode(3);
+        node.next.next.next.next.next = new ListNode(3);
+        System.out.println(node);
+        System.out.println(deleteDuplicates(node));
     }
 
 }
