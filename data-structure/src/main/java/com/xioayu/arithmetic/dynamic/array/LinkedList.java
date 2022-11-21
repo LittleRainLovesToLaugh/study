@@ -23,7 +23,7 @@ public class LinkedList<E> extends AbstractList<E> {
 		@Override
 		public String toString() {
 			StringBuilder sb = new StringBuilder();
-			
+
 			if (prev != null) {
 				sb.append(prev.element);
 			} else {
@@ -65,7 +65,6 @@ public class LinkedList<E> extends AbstractList<E> {
 	@Override
 	public void add(int index, E element) {
 		rangeCheckForAdd(index);
-
 		// size == 0
 		// index == 0
 		if (index == size) { // 往最后面添加元素
