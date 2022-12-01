@@ -3,22 +3,28 @@ package com.xioayu.arithmetic.dynamic.array;
 @SuppressWarnings("unchecked")
 
 /**
- * 有动态缩容操作，动态数组
+ * 有动态缩容操作，动态数组，添加first提升添加和删除首节点元素的性能
  *
  */
-public class ArrayList2<E> extends AbstractList<E> {
+public class ArrayListFirst<E> extends AbstractList<E> {
     /**
      * 所有的元素
      */
     private E[] elements;
+
+    /**
+     * 默认指向第一个数组元素，用来删除第一个元素，或者添加第一个元素
+     */
+    private int first = 0;
+
     private static final int DEFAULT_CAPACITY = 10;
 
-    public ArrayList2(int capaticy) {
+    public ArrayListFirst(int capaticy) {
         capaticy = Math.max(capaticy, DEFAULT_CAPACITY);
         elements = (E[]) new Object[capaticy];
     }
 
-    public ArrayList2() {
+    public ArrayListFirst() {
         this(DEFAULT_CAPACITY);
     }
 
@@ -79,12 +85,15 @@ public class ArrayList2<E> extends AbstractList<E> {
         rangeCheckForAdd(index);
 
         ensureCapacity(size + 1);
-
-        for (int i = size; i > index; i--) {
-            elements[i] = elements[i - 1];
+        if (index == 0) {
+            // elements
+        } else {
+            for (int i = size; i > index; i--) {
+                elements[i] = elements[i - 1];
+            }
+            elements[index] = element;
+            size++;
         }
-        elements[index] = element;
-        size++;
     } // size是数据规模
 
     /**
