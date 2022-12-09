@@ -30,26 +30,22 @@ import java.util.Deque;
  */
 public class _856_括号的分数 {
 
-    public static void main(String[] args) {
 
-    }
 
-    class Solution {
-        public int scoreOfParentheses(String s) {
-            Deque<Integer> st = new ArrayDeque<>();
-            st.push(0);
-            for (int i = 0; i < s.length(); i++) {
-                if (s.charAt(i) == '(') {
-                    st.push(0);
-                } else {
-                    // 从这个deque表示的堆栈中弹出一个元素。换句话说，删除并返回这个deque的第一个元素。
-                    int v = st.pop();
-                    int top = st.pop() + Math.max(2 * v, 1);
-                    st.push(top);
-                }
+    public int scoreOfParentheses(String s) {
+        Deque<Integer> st = new ArrayDeque<>();
+        st.push(0);
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == '(') {
+                st.push(0);
+            } else {
+                // 从这个deque表示的堆栈中弹出一个元素。换句话说，删除并返回这个deque的第一个元素。
+                int v = st.pop();
+                int top = st.pop() + Math.max(2 * v, 1);
+                st.push(top);
             }
-            return st.peek();
         }
+        return st.peek();
     }
 
 }

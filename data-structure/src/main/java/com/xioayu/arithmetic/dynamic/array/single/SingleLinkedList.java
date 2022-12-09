@@ -74,19 +74,23 @@ public class SingleLinkedList<E> extends AbstractList<E> implements List<E> {
 
     @Override
     public void add(int index, E element) {
-        // index == size时，元素添加到最后面
+        // 往最后面添加元素
         if (index == size) {
-            Node<E> oldLast = last; // 待添加元素的下一个节
-            last = new Node<>(last, element, null);
-            if (oldLast == null) {  // 这是链表添加的第一个元素
+            // 待添加元素的下一个节
+            Node<E> oldLast = last;
+            last = new Node<>(oldLast, element, first);
+            // 这是链表添加的第一个元素
+            if (oldLast == null) {
                 first = last;
             } else {
                 oldLast.next = last;
             }
         } else {
             rangeCheckForAdd(index);
-            Node<E> next = node(index); // 待添加元素的下一个节点
-            Node<E> prev = next.prev;   // 待添加元素的上一个节点
+            // 待添加元素的下一个节点
+            Node<E> next = node(index);
+            // 待添加元素的上一个节点
+            Node<E> prev = next.prev;
             Node<E> node = new Node<>(prev, element, next); // 插入当前元素，并给对应的节点赋值
             next.prev = node;   // 更改下节点的上节点指针
             // index == 0的情况
