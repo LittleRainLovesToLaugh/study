@@ -34,6 +34,8 @@ hs_err_pid*
 backend/target/
 frontend/node_modules/
 frontend/dist/
+frontend/src/auto-imports.d.ts
+frontend/src/components.d.ts
 *.pem
 *.key
 !**/README.md

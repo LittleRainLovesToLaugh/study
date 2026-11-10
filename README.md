@@ -6,16 +6,18 @@
 
 | 目录 | 说明 |
 | --- | --- |
-| `backend/` | Spring Boot 3 后端骨架（本阶段交付） |
-| `frontend/` | Vue3 运营后台占位（待 CEN-7） |
+| `backend/` | Spring Boot 3 后端骨架（CEN-6） |
+| `frontend/` | Vue3 + Element Plus 运营后台骨架（CEN-7） |
 | `deploy/` | Docker Compose：MySQL / Redis / MinIO，及 XXL-JOB 说明 |
+
+> **提醒**：Cloud Agent 改动在 GitHub 分支上。本机要看到代码，请 `git fetch` 后 checkout 对应特性分支（或合并后再 pull）。
 
 ## 技术栈（已锁定）
 
 - 后端：Java 17+、Spring Boot 3、MyBatis-Plus、Flyway、Spring Security + JWT、Redis
 - 存储：MySQL 8、MinIO
 - 调度：XXL-JOB（骨架阶段仅配置占位，见 `deploy/README.md`）
-- 前端：Vue 3 + Vite + TypeScript + Element Plus（下一阶段）
+- 前端：Vue 3 + Vite + TypeScript + Element Plus（中文界面）
 - 渠道：刊登抽象 + **仅虾皮适配器**；1688 / 虾皮均为 **接口 + Mock Stub（待接官方 SDK）**
 
 ## 本地启动
@@ -40,7 +42,20 @@ mvn spring-boot:run
 
 默认端口 `8080`。Flyway 自动迁移表结构并写入默认管理员。
 
-### 3. 验证
+### 3. 启动前端
+
+需 Node.js 20+。
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+浏览器打开：http://127.0.0.1:5173  
+开发代理：`/api` → `http://127.0.0.1:8080`
+
+### 4. 验证
 
 ```bash
 # 健康检查
@@ -68,13 +83,11 @@ curl -X POST http://127.0.0.1:8080/api/v1/auth/login \
 
 ## 后续阶段（等协调器切任务）
 
-- **CEN-7**：Vue3 + Element Plus 运营后台骨架
 - **CEN-8**：流水线 / 部署完善；采集适配与后台 CRUD、自动刊登与同步实现
 
 ## 编译自检
 
 ```bash
-cd backend
-mvn -q -DskipTests package
-mvn -q test
+cd backend && mvn -q -DskipTests package && mvn -q test
+cd ../frontend && npm run build
 ```
