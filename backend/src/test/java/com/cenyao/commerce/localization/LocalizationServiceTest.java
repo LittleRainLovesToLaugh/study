@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class LocalizationServiceTest {
@@ -19,8 +20,17 @@ class LocalizationServiceTest {
     @Test
     void mustTranslateWhenTargetDiffers() {
         LocalizationService service = new LocalizationService(new MockTranslationProvider());
-        var result = service.localize("标题", "<p>详情</p>", "zh-TW");
+        var result = service.localize("模拟商品", "<p>详情</p>", "zh-TW");
         assertTrue(result.translated());
-        assertTrue(result.title().startsWith("[zh-TW]"));
+        assertNotEquals("模拟商品", result.title());
+        assertFalse(result.title().isBlank());
+    }
+
+    @Test
+    void englishGetsLanguagePrefix() {
+        LocalizationService service = new LocalizationService(new MockTranslationProvider());
+        var result = service.localize("标题", "详情", "en");
+        assertTrue(result.translated());
+        assertTrue(result.title().startsWith("[en]"));
     }
 }
