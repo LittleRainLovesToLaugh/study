@@ -1,0 +1,63 @@
+# 本地依赖：MySQL / Redis / MinIO
+# XXL-JOB 控制台说明见同目录 README（一期骨架默认不强制拉起，避免镜像体积与端口冲突）
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: commerce-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root_change_me
+      MYSQL_DATABASE: commerce
+      MYSQL_USER: commerce
+      MYSQL_PASSWORD: commerce_change_me
+      TZ: Asia/Shanghai
+    ports:
+      - "3306:3306"
+    volumes:
+      - commerce-mysql-data:/var/lib/mysql
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-proot_change_me"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    container_name: commerce-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - commerce-redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  minio:
+    image: minio/minio:latest
+    container_name: commerce-minio
+    restart: unless-stopped
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin_change_me
+    command: server /data --console-address ":9001"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - commerce-minio-data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://127.0.0.1:9000/minio/health/live"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  commerce-mysql-data:
+  commerce-redis-data:
+  commerce-minio-data:
