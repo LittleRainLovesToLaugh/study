@@ -61,6 +61,9 @@ app:
     admin-addresses: ${XXL_JOB_ADMIN:http://127.0.0.1:8088/xxl-job-admin}
     app-name: commerce-executor
     access-token: ${XXL_JOB_ACCESS_TOKEN:default_token_change_me}
+  sync:
+    # 价库同步 Spring 定时（占位）；生产改走 XXL-JOB
+    price-stock-cron: ${PRICE_STOCK_SYNC_CRON:0 0 * * * ?}
 
 logging:
   level:

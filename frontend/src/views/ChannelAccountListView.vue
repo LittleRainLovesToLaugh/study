@@ -1,10 +1,18 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-import { fetchChannelAccounts } from '@/api/modules'
+import { onMounted, reactive, ref } from 'vue'
+import { ElMessage } from 'element-plus'
+import { createChannelAccount, fetchChannelAccounts } from '@/api/modules'
 import type { ChannelAccount } from '@/types/api'
 
 const loading = ref(false)
 const rows = ref<ChannelAccount[]>([])
+
+const form = reactive({
+  shopName: '台湾演示店',
+  shopId: 'SHOP-TW-001',
+  siteRegion: 'TW',
+  targetLanguage: 'zh-TW',
+})
 
 async function load() {
   loading.value = true
@@ -17,6 +25,21 @@ async function load() {
   }
 }
 
+async function onCreate() {
+  if (!form.shopName || !form.siteRegion || !form.targetLanguage) {
+    ElMessage.warning('请填写店铺、站点与目标语言')
+    return
+  }
+  await createChannelAccount({
+    ...form,
+    partnerId: 'demo-partner',
+    partnerKey: 'demo-partner-key',
+    accessToken: 'demo-access-token',
+  })
+  ElMessage.success('渠道账号已创建（凭证已加密入库）')
+  await load()
+}
+
 onMounted(load)
 </script>
 
@@ -25,10 +48,42 @@ onMounted(load)
     <div class="page-header">
       <div>
         <h2>渠道账号</h2>
-        <p class="page-desc">一期仅虾皮店铺；展示站点/地区与目标语言（凭证密文不下发）</p>
+        <p class="page-desc">一期仅虾皮；站点/地区 + 目标语言决定本地化；凭证密文不下发</p>
       </div>
       <el-button @click="load">刷新</el-button>
     </div>
+
+    <el-form :inline="true" class="toolbar" @submit.prevent>
+      <el-form-item label="店铺名">
+        <el-input v-model="form.shopName" />
+      </el-form-item>
+      <el-form-item label="店铺编号">
+        <el-input v-model="form.shopId" />
+      </el-form-item>
+      <el-form-item label="站点">
+        <el-select v-model="form.siteRegion" style="width: 100px">
+          <el-option label="TW" value="TW" />
+          <el-option label="MY" value="MY" />
+          <el-option label="SG" value="SG" />
+          <el-option label="PH" value="PH" />
+          <el-option label="VN" value="VN" />
+          <el-option label="TH" value="TH" />
+          <el-option label="ID" value="ID" />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="语言">
+        <el-select v-model="form.targetLanguage" style="width: 120px">
+          <el-option label="zh-TW" value="zh-TW" />
+          <el-option label="en" value="en" />
+          <el-option label="vi" value="vi" />
+          <el-option label="th" value="th" />
+          <el-option label="zh-CN" value="zh-CN" />
+        </el-select>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="onCreate">创建账号</el-button>
+      </el-form-item>
+    </el-form>
 
     <el-table v-loading="loading" :data="rows" stripe empty-text="暂无渠道账号">
       <el-table-column prop="id" label="ID" width="160" />
@@ -47,3 +102,9 @@ onMounted(load)
     </el-table>
   </div>
 </template>
+
+<style scoped>
+.toolbar {
+  margin-bottom: 12px;
+}
+</style>

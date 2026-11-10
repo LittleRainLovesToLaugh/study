@@ -29,7 +29,10 @@ docker compose up -d
 2. 在 `backend` 的 `application.yml` / 环境变量中配置：
    - `XXL_JOB_ADMIN`：控制台地址，如 `http://127.0.0.1:8088/xxl-job-admin`
    - `XXL_JOB_ACCESS_TOKEN`：访问令牌（占位，生产必改）
-3. 后续阶段再在应用内注册执行器与 JobHandler。
+3. 应用内已预留价库同步入口：
+   - REST：`POST /api/v1/sync/price-stock`
+   - Spring 定时：`PriceStockSyncJob`（cron 可由 `PRICE_STOCK_SYNC_CRON` 覆盖）
+   - XXL-JOB：在 `PriceStockSyncJob#xxlJobHandlerPlaceholder` 注释处接入 `@XxlJob("commercePriceStockSync")`
 
 ## 环境变量占位（切勿提交真实密钥）
 
